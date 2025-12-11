@@ -451,8 +451,7 @@ class DropsCampaign:
         self, channel: Channel | None = None, ignore_channel_status: bool = False
     ) -> bool:
         return (
-            self.eligible  # account is eligible
-            and self.active  # campaign is active (and valid)
+            self.active  # campaign is active (and valid)
             and (
                 channel is None or (  # channel isn't specified,
                     # or there's no ACL, or the channel is in the ACL
@@ -491,8 +490,7 @@ class DropsCampaign:
         # Same as can_earn, but doesn't check the channel
         # and uses a future timestamp to see if we can earn this campaign later
         return (
-            self.eligible
-            and self._valid
+            self._valid
             and self.ends_at > datetime.now(timezone.utc)
             and self.starts_at < stamp
             and any(drop._can_earn_within(stamp) for drop in self.drops)
